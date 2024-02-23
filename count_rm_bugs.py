@@ -35,6 +35,11 @@ def sub_run(cmd, timeout):
         return None
     return None
                                      
+# crash_dirs = [./output_dir/default/crashes/, ./output_dir/default/queue/]
+# prom_bin = PUT路径
+# flags = PUT执行参数
+# save_dir = ./output_dir/default/bugs/
+# bugs_id = {}
 def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
     for cur_dir in crash_dirs:
         is_crash_dir = cur_dir.endswith("crashes/")
