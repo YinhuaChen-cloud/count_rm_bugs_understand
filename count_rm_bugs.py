@@ -96,7 +96,7 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                     if line.startswith(b"Successfully triggered bug"):
                         dot = line.split(b',')[0] # 取 , 前面的子串，dot = "Successfully triggered bug 788"
                         cur_id = int(dot[27:])
-                        has_crash_id = True
+                        has_crash_id = True # 如果那一行开头是 "Successfully triggered bug"，那么就说明输出结果确实有 crash_id，has_crash_id 设置为 True
                         if cur_id not in bugs_id:                        
                             print("  Trigger %5d in: %s" % (cur_id, cur_file))
                             if is_crash_dir:
