@@ -42,8 +42,8 @@ def sub_run(cmd, timeout):
 # bugs_id = {}
 def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
     for cur_dir in crash_dirs:
-        # 如果是 crashes 文件夹，则 is_crash_dir = True
-        # 如果是 queue 文件夹，则 is_crash_dir = False
+        # 如果是 ./output_dir/default/crashes/ 文件夹，则 is_crash_dir = True
+        # 如果是 ./output_dir/default/queue/ 文件夹，则 is_crash_dir = False
         is_crash_dir = cur_dir.endswith("crashes/")
         # for loop: 列出 crashes/queue 文件夹下的所有内容 (放进一个列表里)
         for file in os.listdir(cur_dir):
