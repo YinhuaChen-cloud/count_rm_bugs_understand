@@ -89,6 +89,7 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
 
                 # 遍历刚刚执行 PUT (输入是 crashes/queue 下的种子)
                 has_crash_id = False      
+                # for loop: 循环遍历 那个进程的 输出
                 for line in out:
                     if line.startswith(b"Successfully triggered bug"):
                         dot = line.split(b',')[0]
