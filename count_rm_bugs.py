@@ -83,6 +83,11 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                     continue
 
                 out = r.stdout.split(b'\n')
+
+                # print(out)
+                # out = [b'Successfully triggered bug 274, crashing now!', b'Successfully triggered bug 274, crashing now!', b"\xec\x83\xdf,\xe8C\x8be\x8b\xb3\x14\xca\x83\xd0\xdax\x18\xc8\x03\x80@X\xb6\x8b\xd1\xe7\xaaR\xa3\x04\xa9\xbb\xa2\x0bZ\x0f\xb0\x03\x0c\xd2(\x1c\x80\xd6\xc9\xb3Z\x10\xac\xd2\xbdA'U\x99\xb1\x15\xb8\x8e\xee0Q\xa9Q\x0cW\xa2:Qq F\x1e\xf9\x16UO\x12\x8b\xceY\xc6]0\xb0rmQLc\xa0 \xfbU\xac\x9c\x0c", b'\x05g$\x80ny\xb4\r\xc9\x03\xcd\x0e\xb1\x07\xfe\xe5<Ly:\xe6\xa5\x9c']
+
+                # 遍历刚刚执行 PUT (输入是 crashes/queue 下的种子)
                 has_crash_id = False      
                 for line in out:
                     if line.startswith(b"Successfully triggered bug"):
