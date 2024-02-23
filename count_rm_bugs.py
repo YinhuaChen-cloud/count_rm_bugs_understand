@@ -43,11 +43,12 @@ def sub_run(cmd, timeout):
 # save_dir = ./output_dir/default/bugs/
 # bugs_id = {}
 def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
+    # CYHNO_TE: 需要注意的是，这个 循环似乎 会重复地刷 queue 这个文件夹，对于会产生大量种子的 path_fuzzer 来说，这会让运行时间变长很多
     for cur_dir in crash_dirs:
         # 如果是 ./output_dir/default/crashes/ 文件夹，则 is_crash_dir = True
         # 如果是 ./output_dir/default/queue/ 文件夹，则 is_crash_dir = False
         is_crash_dir = cur_dir.endswith("crashes/")
-        # for loop: 列出 crashes/queue 文件夹下的所有内容 (放进一个列表里)
+        # for loop: 列出 crashes 或 queue 文件夹下的所有内容 (放进一个列表里)
         for file in os.listdir(cur_dir):
             # 如果不是 README.txt 才会继续执行里面的代码
             if (file != "README.txt"):                
@@ -115,7 +116,7 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                             # 如果这是一个 crashes 文件夹，那么删除那个种子
                             if is_crash_dir:
                                 sub_run(["rm", cur_file], 3)
-                # 循环结束后，如果在 PUT 的输出里没有找到 crash_id，那么就打印 NO Trigger
+                # 循环结束后，如果在 PUT 的输出里没有找到 crash_id (且这个种子属于 crashes 文件夹)，那么就打印 "NO Trigger" 日志，因为这种 crashes 是需要特别关注的，它很可能表明了一些 LAVAM benchmarks 中尚未被发现的 bugs
                 if has_crash_id == False and is_crash_dir:
                     print("  NO Trigger       for: %s" % cur_file)
     return bugs_id
@@ -206,6 +207,7 @@ if __name__ == "__main__":
         # id_lists = [1, 235, 274, 276, 278, 560, 562, 566, 782, 784, 786, 788, 790, 792, 805]
 
         # 如果一个在 id_lists 里的 “序号i” 既不在 val_ids 这个列表里，也不在 extra_ids 这个列表里，那么就把它放进 extra_ids 这个列表里
+        # 也就是，被意外触发的 bug_id
         for i in id_lists:
             if i not in val_ids and i not in extra_ids:
                 extra_ids.append(i)
@@ -214,10 +216,17 @@ if __name__ == "__main__":
 
         # append_file 这个函数的作用是，往某个文件添加新的一行，那一行的内容就是第一个参数
         append_file("-" * 80, log_file)
+        # bug_log.txt: --------------------------------------------------------------------------------
         append_file("Found ids: " + " ".join(str(i) for i in id_lists), log_file)
+        # bug_log.txt: Found ids: 1 235 276 278 560 562 566 782 784 788 792
         append_file("Number of found ids: " + str(len(bugs_id)), log_file)
+        # bug_log.txt: Number of found ids: 11
         append_file("Extra ids: " + " ".join(str(i) for i in extra_ids), log_file)
+        # bug_log.txt: Extra ids: 
         fail_ids = list(set(val_ids) - set(id_lists))
+        print("========== start ========")
+        print(fail_ids)
+        print("========== end ========")
         append_file("Fail ids: " + " ".join(str(i) for i in fail_ids), log_file)
         cnt = len(id_lists)
 
