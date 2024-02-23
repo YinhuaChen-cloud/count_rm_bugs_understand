@@ -19,6 +19,7 @@ import subprocess
 import time                 
 import shutil
 
+# 打开 path 指定的文件，往里面添加新的一行 pstr
 def append_file(pstr, path):                    
     f = open(path, 'a')                           
     f.write("%s\n" % pstr)
@@ -158,6 +159,9 @@ if __name__ == "__main__":
             if i not in val_ids and i not in extra_ids:
                 extra_ids.append(i)
 
+        # log_file = ./output_dir/default/bug_log.txt
+
+        # append_file 这个函数的作用是，往某个文件添加新的一行，那一行的内容就是第一个参数
         append_file("-" * 80, log_file)
         append_file("Found ids: " + " ".join(str(i) for i in id_lists), log_file)
         append_file("Number of found ids: " + str(len(bugs_id)), log_file)
