@@ -91,8 +91,10 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                 has_crash_id = False      
                 # for loop: 循环遍历 那个进程的 输出
                 for line in out:
+                    # 如果某个文件的那一行的开头是 "Successfully triggered bug"
+                    # 也就是 Successfully triggered bug 788, crashing now!
                     if line.startswith(b"Successfully triggered bug"):
-                        dot = line.split(b',')[0]
+                        dot = line.split(b',')[0] # 取 , 前面的子串，dot = "Successfully triggered bug 788"
                         cur_id = int(dot[27:])
                         has_crash_id = True
                         if cur_id not in bugs_id:                        
@@ -218,4 +220,6 @@ if __name__ == "__main__":
         # 32,43
         # 48,44
 
+        # 真奇怪，这里为什么要睡 15 秒 ？
         time.sleep(15)
+
