@@ -62,7 +62,6 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                 cmd.append(cur_file)
                 cmd = ["timeout", "-s", "KILL", "--preserve-status", "4"] + cmd
                 # 命令：
-                print(cmd)
                 # ['timeout', '-s', 'KILL', '--preserve-status', '4', './afl/base64', '-d', './output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0']
                 # 翻译成人话就是下面这行：
                 # timeout -s KILL --preserve-status 4 ./afl/base64 -d ./output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0
