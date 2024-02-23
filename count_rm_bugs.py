@@ -94,20 +94,31 @@ if __name__ == "__main__":
         flags = sys.argv[4:]
 
     print("Target progrom is : ", prom, flags)
+    # Target progrom is :  ./afl/base64 ['-d']
 
     val_ids = []
     extra_ids = []
     with open(val_file, 'r') as f:
         d = f.read()
+        # 到这行，d 已经读取了 validated_bugs 里的所有内容
         val_ids = list(map(int, d.split()))
         sorted(val_ids)
 
+    # val_ids = 
+    # [1, 222, 235, 253, 255, 276, 278, 284, 386, 554, 556, 558, 560, 562, 566, 572, 573, 576, 582, 583, 584, 774, 776, 778, 780, 782, 784, 786, 788, 790, 792, 798, 804, 805, 806, 813, 815, 817, 831, 832, 835, 841, 842, 843]
+
     unique_dir = output_dir + "/bugs/"
+    # ./output_dir/default/bugs/
+
+    # 如果不存在 ./output_dir/default/bugs/ 这个文件夹，那么创建它
     if not os.path.isdir(unique_dir):
         os.mkdir(unique_dir)
     crash_dirs = [output_dir + "/crashes/", output_dir + "/queue/"]
+    # crash_dirs = ./output_dir/default/crashes/, ./output_dir/default/queue/ 
     log_file = output_dir + "/bug_log.txt"
+    # log_file = ./output_dir/default/bug_log.txt
     cnt_file = output_dir + "/bug_cnt.txt"
+    # cnt_file = ./output_dir/default/bug_cnt.txt
     bugs_id = {}
 
     t0 = int(time.time())
