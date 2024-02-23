@@ -202,6 +202,7 @@ if __name__ == "__main__":
         id_lists = list(bugs_id.keys())
         id_lists.sort()
 
+        # id_lists 是一个列表，里面装着 “已经被触发的 bugs”
         # id_lists = [1, 235, 274, 276, 278, 560, 562, 566, 782, 784, 786, 788, 790, 792, 805]
 
         # 如果一个在 id_lists 里的 “序号i” 既不在 val_ids 这个列表里，也不在 extra_ids 这个列表里，那么就把它放进 extra_ids 这个列表里
