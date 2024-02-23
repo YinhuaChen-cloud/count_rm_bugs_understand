@@ -229,6 +229,7 @@ if __name__ == "__main__":
         print("========== end ========")
         append_file("Fail ids: " + " ".join(str(i) for i in fail_ids), log_file)
         cnt = len(id_lists)
+        # cnt = 已经被触发的 bugs 数量
 
         # 这行代码就是往 bug_cnt.txt 添加新的一行
         append_file("%d,%d" % (t, cnt), cnt_file)
