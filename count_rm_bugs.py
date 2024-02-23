@@ -122,6 +122,9 @@ if __name__ == "__main__":
     bugs_id = {}
 
     t0 = int(time.time())
+    # 它用于获取当前的系统时间，返回一个浮点数表示的时间戳，以秒为单位，
+    # 从 1970 年 1 月 1 日午夜（UTC）开始计算。
+
     while True:
         t = int(time.time()) - t0
         print("Collecting bugs at %d" % t)
