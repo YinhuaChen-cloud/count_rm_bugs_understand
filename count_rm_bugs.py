@@ -96,16 +96,24 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                     if line.startswith(b"Successfully triggered bug"):
                         dot = line.split(b',')[0] # 取 , 前面的子串，dot = "Successfully triggered bug 788"
                         cur_id = int(dot[27:])
+                        # cur_id = bug_id (就是 validated_bugs 里的那些序号)
                         has_crash_id = True # 如果那一行开头是 "Successfully triggered bug"，那么就说明输出结果确实有 crash_id，has_crash_id 设置为 True
+                        # 如果触发的 bug id 不在 bugs_id 字典里
                         if cur_id not in bugs_id:                        
                             print("  Trigger %5d in: %s" % (cur_id, cur_file))
+                            # Trigger   235 in: ./output_dir/default//queue/id:000066,src:000000,time:2171,execs:1087,op:its,pos:0,+cov
+                            # 如果是在 output_dir/default/crashes 文件夹下，那么把这个 seedfile 移动到 ./output_dir/default/bugs/bug-cur_id 上
+                            # 如果是在 output_dir/default/queue 文件夹下，那么把这个 seedfile 拷贝到 ./output_dir/default/bugs/bug-cur_id 上
                             if is_crash_dir:
                                 sub_run(["mv", cur_file, save_dir + "bug-" + str(cur_id)], 3)
                             else:
                                 sub_run(["cp", cur_file, save_dir + "bug-" + str(cur_id)], 3)
+                            # 如果是第一次遇到这个 bug，那么在字典里记录它
                             bugs_id[cur_id] = 1
                         else:
+                            # 如果已经遇到这个 bug 了，那么让它的触发数量 + 1
                             bugs_id[cur_id] += 1       
+                            # 如果这是一个 crashes 文件夹
                             if is_crash_dir:
                                 sub_run(["rm", cur_file], 3)
                 if has_crash_id == False and is_crash_dir:
@@ -167,6 +175,7 @@ if __name__ == "__main__":
     # 它用于获取当前的系统时间，返回一个浮点数表示的时间戳，以秒为单位，
     # 从 1970 年 1 月 1 日午夜（UTC）开始计算。
 
+    # CYHNO_TE: 这本质上是个死循环，docker 运行版本是怎么把这个程序停下来的？
     while True:
         # 计算当前时间
         t = int(time.time()) - t0
