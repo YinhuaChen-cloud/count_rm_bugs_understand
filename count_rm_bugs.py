@@ -113,9 +113,10 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                         else:
                             # 如果已经遇到这个 bug 了，那么让它的触发数量 + 1
                             bugs_id[cur_id] += 1       
-                            # 如果这是一个 crashes 文件夹
+                            # 如果这是一个 crashes 文件夹，那么删除那个种子
                             if is_crash_dir:
                                 sub_run(["rm", cur_file], 3)
+                # 循环结束后，如果在 PUT 的输出里没有找到 crash_id，那么就打印 NO Trigger
                 if has_crash_id == False and is_crash_dir:
                     print("  NO Trigger       for: %s" % cur_file)
     return bugs_id
