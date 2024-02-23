@@ -49,7 +49,9 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
         for file in os.listdir(cur_dir):
             # 如果不是 README.txt 才会继续执行里面的代码
             if (file != "README.txt"):                
+                # cur_file = ./output_dir/default/crashes/seed_filename
                 cur_file = cur_dir + file
+                # cmd = [PUT路径]
                 cmd = [prom_bin]            
                 for flag in flags:
                     cmd.append(flag)
