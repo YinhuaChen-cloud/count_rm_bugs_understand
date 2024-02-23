@@ -169,6 +169,14 @@ if __name__ == "__main__":
         fail_ids = list(set(val_ids) - set(id_lists))
         append_file("Fail ids: " + " ".join(str(i) for i in fail_ids), log_file)
         cnt = len(id_lists)
+
+        # 这行代码就是往 bug_cnt.txt 添加新的一行
         append_file("%d,%d" % (t, cnt), cnt_file)
+
+        # 以下是 bug_cnt.txt 的一个例子
+        # 0,27
+        # 16,36
+        # 32,43
+        # 48,44
 
         time.sleep(15)
