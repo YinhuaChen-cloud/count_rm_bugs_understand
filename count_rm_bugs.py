@@ -47,6 +47,7 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
         is_crash_dir = cur_dir.endswith("crashes/")
         # for loop: 列出 crashes/queue 文件夹下的所有内容 (放进一个列表里)
         for file in os.listdir(cur_dir):
+            # 如果不是 README.txt 才会继续执行里面的代码
             if (file != "README.txt"):                
                 cur_file = cur_dir + file
                 cmd = [prom_bin]            
