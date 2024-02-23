@@ -189,7 +189,7 @@ if __name__ == "__main__":
         # unique_dir = ./output_dir/default/bugs/
 
         # Collecting bugs at 0
-        # bugs_id = {}
+        # bugs_id = {}  bug_id 是一个字典，key 是 bug_id，value 是触发次数
         # Collecting bugs at 16
         # {788: 5, 782: 5, 566: 5, 792: 3, 784: 5, 560: 3, 1: 6, 278: 3, 276: 5, 562: 5, 786: 5, 790: 3, 235: 5, 274: 5}
         # Collecting bugs at 33
