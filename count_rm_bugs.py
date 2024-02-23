@@ -52,11 +52,19 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                 # cur_file = ./output_dir/default/crashes/seed_filename
                 cur_file = cur_dir + file
                 # cmd = [PUT路径]
+
+                # 下面这几行的目的是为了构建一个完整的命令
                 cmd = [prom_bin]            
                 for flag in flags:
                     cmd.append(flag)
                 cmd.append(cur_file)
                 cmd = ["timeout", "-s", "KILL", "--preserve-status", "4"] + cmd
+                # 命令：
+                print(cmd)
+                # ['timeout', '-s', 'KILL', '--preserve-status', '4', './afl/base64', '-d', './output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0']
+                # 翻译成人话就是下面这行：
+                # timeout -s KILL --preserve-status 4 ./afl/base64 -d ./output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0
+
                 r = sub_run(cmd, 6)
                 if r is None:
                     continue
