@@ -26,6 +26,8 @@ def append_file(pstr, path):
     f.close()
     return               
 
+# cmd = "timeout -s KILL --preserve-status 4 ./afl/base64 -d ./output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0"
+# timeout = 6
 def sub_run(cmd, timeout):
     try: 
          r = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
@@ -74,8 +76,12 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                 # 似乎是在让 PUT 执行 crashes 和 queue 下的种子
 
                 r = sub_run(cmd, 6)
+                # r 似乎是一个对象
+                # r = CompletedProcess(args=['timeout', '-s', 'KILL', '--preserve-status', '4', './afl/base64', '-d', './output_dir/default//queue/id:000046,src:000000,time:1318,execs:718,op:its,pos:0,+pat'], returncode=1, stdout=b'\xd8\xb5\x9d\x18\x8aC\xb7\x94\x16\xb3\x04\xca\x83\xd0\x1ex\x08\x8b\x07\xa0\xc2MG\x86\xd1\xe6\xef.\xf5\x05\xc1\xfb\xec\x17ZL\x903\xd4\xd2\xf8\x9a\xc5v\x95\xabYT\xb0\x82\xfa(\xd7\x8d\xbd\xa0U\xb4\xee\xae,T&D\xdb\x17\x8f8\x88p\xd1\n\x1a\x9b\xd19\r\x92\xbf\xce\x90\xc2]1\xc4\xe6k!|&\x900\xfc]\xfb\x9e\x10L\x03^cCj\x89\xb4\t\xe8\x81\xa5N\xa5')
+
                 if r is None:
                     continue
+
                 out = r.stdout.split(b'\n')
                 has_crash_id = False      
                 for line in out:
