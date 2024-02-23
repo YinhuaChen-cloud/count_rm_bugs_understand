@@ -64,6 +64,14 @@ def locate_crashes(crash_dirs, prom_bin, flags, save_dir, bugs_id={}):
                 # ['timeout', '-s', 'KILL', '--preserve-status', '4', './afl/base64', '-d', './output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0']
                 # 翻译成人话就是下面这行：
                 # timeout -s KILL --preserve-status 4 ./afl/base64 -d ./output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0
+                # timeout: 这是一个命令，用于设置运行命令的时间限制。
+                # -s KILL: 这个选项告诉 timeout 命令在时间限制到期后发送 KILL 信号给运行的命令。这会强制终止命令的执行。
+                # --preserve-status: 这个选项告诉 timeout 命令保留命令执行的退出状态。即使命令由于超时而被终止，timeout 仍然会返回相同的退出状态
+                # 4: 这是 timeout 命令的时间限制，表示运行的命令最多允许执行 4 秒钟。
+                # ./afl/base64 -d ./output_dir/default//crashes/id:000000,sig:11,src:000000,time:500,execs:201,op:its,pos:0: 这是要运行的命令，它看起来像是对 ./afl/base64 进行解码操作，其中的参数是输入文件的路径。
+
+                # 也就是说，设置一个 timeout，如果超时，kill 掉这个进程
+                # 似乎是在让 PUT 执行 crashes 和 queue 下的种子
 
                 r = sub_run(cmd, 6)
                 if r is None:
