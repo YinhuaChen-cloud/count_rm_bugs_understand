@@ -108,13 +108,13 @@ if __name__ == "__main__":
     # [1, 222, 235, 253, 255, 276, 278, 284, 386, 554, 556, 558, 560, 562, 566, 572, 573, 576, 582, 583, 584, 774, 776, 778, 780, 782, 784, 786, 788, 790, 792, 798, 804, 805, 806, 813, 815, 817, 831, 832, 835, 841, 842, 843]
 
     unique_dir = output_dir + "/bugs/"
-    # ./output_dir/default/bugs/
+    # unique_dir = ./output_dir/default/bugs/
 
     # 如果不存在 ./output_dir/default/bugs/ 这个文件夹，那么创建它
     if not os.path.isdir(unique_dir):
         os.mkdir(unique_dir)
     crash_dirs = [output_dir + "/crashes/", output_dir + "/queue/"]
-    # crash_dirs = ./output_dir/default/crashes/, ./output_dir/default/queue/ 
+    # crash_dirs = [./output_dir/default/crashes/, ./output_dir/default/queue/]
     log_file = output_dir + "/bug_log.txt"
     # log_file = ./output_dir/default/bug_log.txt
     cnt_file = output_dir + "/bug_cnt.txt"
@@ -126,9 +126,17 @@ if __name__ == "__main__":
     # 从 1970 年 1 月 1 日午夜（UTC）开始计算。
 
     while True:
+        # 计算当前时间
         t = int(time.time()) - t0
         print("Collecting bugs at %d" % t)
+        # Collecting bugs at [程序开始后的秒数]
         bugs_id = locate_crashes(crash_dirs, prom, flags, unique_dir, bugs_id)
+        # bugs_id = locate_crashes(crash_dirs, prom, flags, unique_dir, bugs_id)
+        # crash_dirs = [./output_dir/default/crashes/, ./output_dir/default/queue/]
+        # prom = PUT路径
+        # flags = PUT执行参数
+        # unique_dir = ./output_dir/default/bugs/
+        # bugs_id = {}
         id_lists = list(bugs_id.keys())
         id_lists.sort()
         for i in id_lists:
